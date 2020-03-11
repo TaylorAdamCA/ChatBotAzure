@@ -25,8 +25,6 @@ namespace PromptUsersForInput
 
             // Create the storage we'll be using for User and Conversation state.
 
-            /*var blobStorage = new AzureBlobStorage("DefaultEndpointsProtocol=https;AccountName=harrisbotstorage;AccountKey=jiUtrfx6teKNzcBo8t7H4BY7dMopyODpCBvBItc1qXSTInbVa+7juLx2vS7/iQMeG6TJrEi1Vd4ws/dzJrF+LQ==;EndpointSuffix=core.windows.net", "botchatlogs");
-            services.AddSingleton<IStorage>(blobStorage);*/
             var storage = new MemoryStorage();
 
             var userState = new UserState(storage);
