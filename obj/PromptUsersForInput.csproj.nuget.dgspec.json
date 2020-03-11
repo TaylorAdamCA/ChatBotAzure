@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Repos\\harrison_test_bot-src\\PromptUsersForInput.csproj": {}
+    "C:\\Users\\tjada\\source\\repos\\ChatBotAzure\\PromptUsersForInput.csproj": {}
   },
   "projects": {
-    "D:\\Repos\\harrison_test_bot-src\\PromptUsersForInput.csproj": {
+    "C:\\Users\\tjada\\source\\repos\\ChatBotAzure\\PromptUsersForInput.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Repos\\harrison_test_bot-src\\PromptUsersForInput.csproj",
+        "projectUniqueName": "C:\\Users\\tjada\\source\\repos\\ChatBotAzure\\PromptUsersForInput.csproj",
         "projectName": "PromptUsersForInput",
-        "projectPath": "D:\\Repos\\harrison_test_bot-src\\PromptUsersForInput.csproj",
+        "projectPath": "C:\\Users\\tjada\\source\\repos\\ChatBotAzure\\PromptUsersForInput.csproj",
         "packagesPath": "C:\\Users\\tjada\\.nuget\\packages\\",
-        "outputPath": "D:\\Repos\\harrison_test_bot-src\\obj\\",
+        "outputPath": "C:\\Users\\tjada\\source\\repos\\ChatBotAzure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[2.1.1, )",
               "autoReferenced": true
+            },
+            "Microsoft.Bot.Builder.Azure": {
+              "target": "Package",
+              "version": "[4.7.2, )"
             },
             "Microsoft.Bot.Builder.Integration.AspNet.Core": {
               "target": "Package",

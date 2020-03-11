@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using PromptUsersForInput.Bots;
+using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Configuration;
 
-namespace Microsoft.BotBuilderSamples
+namespace PromptUsersForInput
 {
     public class Startup
     {
@@ -22,17 +23,20 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
-            services.AddSingleton<IStorage, MemoryStorage>();
+            // Create the storage we'll be using for User and Conversation state.
 
-            // Create the User state.
-            services.AddSingleton<UserState>();
+            /*var blobStorage = new AzureBlobStorage("DefaultEndpointsProtocol=https;AccountName=harrisbotstorage;AccountKey=jiUtrfx6teKNzcBo8t7H4BY7dMopyODpCBvBItc1qXSTInbVa+7juLx2vS7/iQMeG6TJrEi1Vd4ws/dzJrF+LQ==;EndpointSuffix=core.windows.net", "botchatlogs");
+            services.AddSingleton<IStorage>(blobStorage);*/
+            var storage = new MemoryStorage();
 
-            // Create the Conversation state.
-            services.AddSingleton<ConversationState>();
+            var userState = new UserState(storage);
+            services.AddSingleton(userState);
 
+            // Create the Conversation state passing in the storage layer.
+            var conversationState = new ConversationState(storage);
+            services.AddSingleton(conversationState);
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, CustomPromptBot>();
+            services.AddTransient<IBot, CustomPromptBot1>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
