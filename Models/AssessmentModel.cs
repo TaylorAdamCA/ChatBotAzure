@@ -7,9 +7,9 @@ namespace PromptUsersForInput.Models
 {
     public class AssessmentModel
     {
-        public int NonFTFAssessment { get; set; }
-        public int FTFAssessment { get; set; }
-        public int TelephoneElectronicAssessment { get; set; }
-        public int TelephoneElectronicPlan { get; set; }
+        public string NonFTFAssessment { get; set; }
+        public string FTFAssessment { get; set; }
+        public string TelephoneElectronicAssessment { get; set; }
+        public string TelephoneElectronicPlan { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Bot.Schema;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.Number;
 using PromptUsersForInput.Flows;
@@ -68,16 +69,16 @@ namespace PromptUsersForInput.Bots
                 case ServerRecipientActivitiesFlow.Question.None:
                     await SuggestionActions.SendIntSuggestionsActionsAsync(turnContext, CancellationToken.None,
                         "ASSESSMENT \n" +
-                        "Non Face To Face Assessment / Develop Plan", new List<int>() { 0, 1 });
+                        "Non Face To Face Assessment / Develop Plan", new List<int>() { 0, 1 }, true);
                     flow.LastQuestionAsked = ServerRecipientActivitiesFlow.Question.NonFTFAssessment;
                     break;
 
                 case ServerRecipientActivitiesFlow.Question.NonFTFAssessment:
-                    if (ValidateResponse(input, out int NonFTFResponse, out message, 0, 1))
+                    if (ValidateStringResponse(input, out string NonFTFResponse, out message, 0, 1))
                     {
                         serverRecipientActivities.Assessment.NonFTFAssessment = NonFTFResponse;
                         await SuggestionActions.SendIntSuggestionsActionsAsync(turnContext, CancellationToken.None,
-                            "Face To Face Assessment", new List<int>() { 0, 1 });
+                            "Face To Face Assessment", new List<int>() { 0, 1 }, true);
                         flow.LastQuestionAsked = ServerRecipientActivitiesFlow.Question.FTFAssessment;
                         break;
                     }
@@ -88,11 +89,11 @@ namespace PromptUsersForInput.Bots
                     }
 
                 case ServerRecipientActivitiesFlow.Question.FTFAssessment:
-                    if (ValidateResponse(input, out int FTFResponse, out message, 0, 1))
+                    if (ValidateStringResponse(input, out string FTFResponse, out message, 0, 1))
                     {
                         serverRecipientActivities.Assessment.FTFAssessment = FTFResponse;
                         await SuggestionActions.SendIntSuggestionsActionsAsync(turnContext, CancellationToken.None,
-                            "Telephone / Electronic Assessment", new List<int>() { 0, 1 });
+                            "Telephone / Electronic Assessment", new List<int>() { 0, 1 }, true);
                         flow.LastQuestionAsked = ServerRecipientActivitiesFlow.Question.TelephoneElectronicAssessment;
                         break;
                     }
@@ -102,12 +103,12 @@ namespace PromptUsersForInput.Bots
                         break;
                     }
                 case ServerRecipientActivitiesFlow.Question.TelephoneElectronicAssessment:
-                    if (ValidateResponse(input, out int telephoneElectronicResponse, out message, 0, 1))
+                    if (ValidateStringResponse(input, out string telephoneElectronicResponse, out message, 0, 1))
                     {
                         serverRecipientActivities.Assessment.TelephoneElectronicAssessment =
                             telephoneElectronicResponse;
                         await SuggestionActions.SendIntSuggestionsActionsAsync(turnContext, CancellationToken.None,
-                            "Telephone / Electronic Implement / Evaluate Plan", new List<int>() { 0, 1 });
+                            "Telephone / Electronic Implement / Evaluate Plan", new List<int>() { 0, 1 }, true);
                         flow.LastQuestionAsked = ServerRecipientActivitiesFlow.Question.TelephoneElectronicEvaluate;
                         break;
                     }
@@ -117,7 +118,7 @@ namespace PromptUsersForInput.Bots
                         break;
                     }
                 case ServerRecipientActivitiesFlow.Question.TelephoneElectronicEvaluate:
-                    if (ValidateResponse(input, out int telephoneElectronicEvaluateResponse, out message, 0, 1))
+                    if (ValidateStringResponse(input, out string telephoneElectronicEvaluateResponse, out message, 0, 1))
                     {
                         serverRecipientActivities.Assessment.TelephoneElectronicPlan =
                             telephoneElectronicEvaluateResponse;
@@ -216,6 +217,22 @@ namespace PromptUsersForInput.Bots
             {
                 message = "I'm sorry, I could not interpret that as a number. Please enter a number between " +
                           lowerBoundInclusive + " and " + upperBoundInclusive + ".";
+            }
+
+            return false;
+        }
+
+        private static bool ValidateStringResponse(string input, out string response, out string message,
+            int lowerBoundInclusive, int upperBoundInclusive)
+        {
+            response = input;
+            message = null;
+
+            if (input.ToLower().Equals("yes") || input.ToLower().Equals("no"))
+                return true;
+            else
+            {
+                message = "Please respond with Yes or No";
             }
 
             return false;

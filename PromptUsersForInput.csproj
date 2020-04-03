@@ -19,4 +19,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\DTOs\" />
+  </ItemGroup>
 </Project>
